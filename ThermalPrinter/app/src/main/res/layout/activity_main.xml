@@ -9,9 +9,26 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="nullpointer.thermal.printer.MainActivity">
-
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/msgtextlbl"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Enter Your Message : " >
+    </TextView>
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/msgtextlbl"
+        android:text=" "/>
+
+    <Button
+        android:id="@+id/printButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message"
+        android:layout_marginTop="5dip"
+        android:layout_centerHorizontal="true"
+        android:text="Print" />
 </RelativeLayout>
