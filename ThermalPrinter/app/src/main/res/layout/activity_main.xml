@@ -13,13 +13,15 @@
         android:id="@+id/msgtextlbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Your Message : " >
-    </TextView>
+        android:layout_margin="20dp"
+        android:textSize="20sp"
+        android:text="Enter Your Message : " />
 
     <EditText
         android:id="@+id/message"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
+        android:layout_margin="10dp"
         android:layout_below="@+id/msgtextlbl"
         android:text=" "/>
 

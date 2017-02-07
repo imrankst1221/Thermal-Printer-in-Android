@@ -74,23 +74,21 @@ public class MainActivity extends Activity{
                 byte[] printformat = { 0x1B, 0*21, FONT_TYPE };
                 btoutputstream.write(printformat);
 
-                //nullpointer.thermal.printer is packeg name
-                printPhoto();
-                /*
                 //print title
                 printUnicode();
-                printTitle(" Title ");
-                printUnicode();
-
+                printTitle(" Demo Title ");
                 //resetPrint(); //reset printer
 
                 //print normal text
                 printText(message.getText().toString());
                 printNewLine();
+                printPhoto();
                 printText(">>  Thank you  <<");
+                printUnicode();
                 printNewLine();
                 printNewLine();
-                */
+                printNewLine();
+
                 btoutputstream.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -107,13 +105,15 @@ public class MainActivity extends Activity{
             byte[] bb3 = new byte[]{0x1B,0x21,0x10};
             byte[] cc = new byte[]{0x1B,0x21,0x00};
 
-            btoutputstream.write(bb);
-            btoutputstream.write(bb2);
+            //btoutputstream.write(bb);
+            //btoutputstream.write(bb2);
             btoutputstream.write(bb3);
 
             //set text into center
             btoutputstream.write(PrinterCommands.ESC_ALIGN_CENTER);
             btoutputstream.write(msg.getBytes());
+            btoutputstream.write(PrinterCommands.LF);
+            btoutputstream.write(PrinterCommands.LF);
             btoutputstream.write(cc);
             printNewLine();
         } catch (IOException e) {
@@ -144,7 +144,6 @@ public class MainActivity extends Activity{
         try {
             btoutputstream.write(PrinterCommands.ESC_ALIGN_CENTER);
             printText(Utils.UNICODE_TEXT);
-            printNewLine();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -181,8 +180,6 @@ public class MainActivity extends Activity{
         try {
             // Print normal text
             btoutputstream.write(msg.getBytes());
-            printNewLine();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -195,7 +192,6 @@ public class MainActivity extends Activity{
             // Print normal text
             btoutputstream.write(msg);
             printNewLine();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
