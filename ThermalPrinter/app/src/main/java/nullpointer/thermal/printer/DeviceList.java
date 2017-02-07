@@ -226,7 +226,7 @@ public class DeviceList extends ListActivity {
                     try {
                         mbtSocket.close();
                     } catch (IOException e) {
-// e.printStackTrace();
+                    // e.printStackTrace();
                     }
                     mbtSocket = null;
                     return;
@@ -278,4 +278,16 @@ public class DeviceList extends ListActivity {
 
         return true;
     }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        try {
+            unregisterReceiver(mBTReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

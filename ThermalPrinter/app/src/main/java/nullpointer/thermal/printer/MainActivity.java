@@ -77,14 +77,12 @@ public class MainActivity extends Activity{
                 //print title
                 printUnicode();
                 //print normal text
-                printNewLine();
                 printTitle(message.getText().toString());
                 printPhoto();
-                printText(">>  Thank you  <<");
-                resetPrint(); //reset printer
                 printNewLine();
+                printText("     >>>>   Thank you  <<<<     "); // total 32 char in a single line
+                //resetPrint(); //reset printer
                 printUnicode();
-                printNewLine();
                 printNewLine();
                 printNewLine();
 
@@ -210,6 +208,7 @@ public class MainActivity extends Activity{
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
