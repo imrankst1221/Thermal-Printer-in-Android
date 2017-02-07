@@ -12,5 +12,4 @@
 > * Print Icon 
 
 
-![viber image](https://cloud.githubusercontent.com/assets/7795398/22685288/f152e8cc-ed49-11e6-8093-a458b48b5b79.jpg)
-
+![img_20170207_161143](https://cloud.githubusercontent.com/assets/7795398/22687088/d6816ca6-ed50-11e6-9c91-c7ab3aa43a2b.jpg)
