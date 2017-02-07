@@ -4,11 +4,22 @@ package nullpointer.thermal.printer;
  * Created by https://goo.gl/UAfmBd on 2/6/2017.
  */
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -50,29 +61,141 @@ public class MainActivity extends Activity{
                 e.printStackTrace();
             }
             btoutputstream = opstream;
-            print_bt();
 
+            //print command
+            try {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                btoutputstream = btsocket.getOutputStream();
+
+                byte[] printformat = { 0x1B, 0*21, FONT_TYPE };
+                btoutputstream.write(printformat);
+
+                //nullpointer.thermal.printer is packeg name
+                printPhoto();
+                /*
+                //print title
+                printUnicode();
+                printTitle(" Title ");
+                printUnicode();
+
+                //resetPrint(); //reset printer
+
+                //print normal text
+                printText(message.getText().toString());
+                printNewLine();
+                printText(">>  Thank you  <<");
+                printNewLine();
+                printNewLine();
+                */
+                btoutputstream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //print Title
+    private void printTitle(String msg) {
+        try {
+            //Print config
+            byte[] bb = new byte[]{0x1B,0x21,0x08};
+            byte[] bb2 = new byte[]{0x1B,0x21,0x20};
+            byte[] bb3 = new byte[]{0x1B,0x21,0x10};
+            byte[] cc = new byte[]{0x1B,0x21,0x00};
+
+            btoutputstream.write(bb);
+            btoutputstream.write(bb2);
+            btoutputstream.write(bb3);
+
+            //set text into center
+            btoutputstream.write(PrinterCommands.ESC_ALIGN_CENTER);
+            btoutputstream.write(msg.getBytes());
+            btoutputstream.write(cc);
+            printNewLine();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
-    private void print_bt() {
+
+    //print photo
+    public void printPhoto() {
         try {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.img);
+            if(bmp!=null){
+                byte[] command = Utils.decodeBitmap(bmp);
+                printText(command);
+            }else{
+                Log.e("Print Photo error", "the file isn't exists");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("PrintTools", "the file isn't exists");
+        }
+    }
 
-            btoutputstream = btsocket.getOutputStream();
+    //print unicode
+    public void printUnicode(){
+        try {
+            btoutputstream.write(PrinterCommands.ESC_ALIGN_CENTER);
+            printText(Utils.UNICODE_TEXT);
+            printNewLine();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            byte[] printformat = { 0x1B, 0*21, FONT_TYPE };
-            btoutputstream.write(printformat);
-            String msg = message.getText().toString();
+
+    //print new line
+    private void printNewLine() {
+        try {
+            btoutputstream.write(PrinterCommands.FEED_LINE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void resetPrint() {
+        try{
+            btoutputstream.write(PrinterCommands.ESC_FONT_COLOR_DEFAULT);
+            btoutputstream.write(PrinterCommands.FS_FONT_ALIGN);
+            btoutputstream.write(PrinterCommands.ESC_ALIGN_LEFT);
+            btoutputstream.write(PrinterCommands.ESC_CANCEL_BOLD);
+            btoutputstream.write(PrinterCommands.LF);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //print text
+    private void printText(String msg) {
+        try {
+            // Print normal text
             btoutputstream.write(msg.getBytes());
-            btoutputstream.write(0x0D);
-            btoutputstream.write(0x0D);
-            btoutputstream.write(0x0D);
-            btoutputstream.flush();
+            printNewLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //print byte[]
+    private void printText(byte[] msg) {
+        try {
+            // Print normal text
+            btoutputstream.write(msg);
+            printNewLine();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,7 +222,7 @@ public class MainActivity extends Activity{
         try {
             btsocket = DeviceList.getSocket();
             if(btsocket != null){
-                print_bt();
+                printText(message.getText().toString());
             }
 
         } catch (Exception e) {

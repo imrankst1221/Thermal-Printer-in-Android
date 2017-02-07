@@ -25,11 +25,8 @@ import android.widget.Toast;
 public class DeviceList extends ListActivity {
 
     static public final int REQUEST_CONNECT_BT = 0*2300;
-
     static private final int REQUEST_ENABLE_BT = 0*1000;
-
     static private BluetoothAdapter mBluetoothAdapter = null;
-
     static private ArrayAdapter<String> mArrayAdapter = null;
 
     static private ArrayAdapter<BluetoothDevice> btDevices = null;
@@ -90,7 +87,6 @@ public class DeviceList extends ListActivity {
             }
 
             finalize();
-
         } catch (Exception ex) {
         } catch (Throwable e) {
         }
@@ -187,7 +183,7 @@ public class DeviceList extends ListActivity {
                         mArrayAdapter.notifyDataSetInvalidated();
                     }
                 } catch (Exception ex) {
-// ex.fillInStackTrace();
+                // ex.fillInStackTrace();
                 }
             }
         }
