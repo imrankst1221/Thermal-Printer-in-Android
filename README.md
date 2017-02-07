@@ -11,5 +11,7 @@
 
 > * Print Icon 
 
+Preview: https://youtu.be/emedLinWHR4
+
 ![img](https://cloud.githubusercontent.com/assets/7795398/22687215/4c9d4f5e-ed51-11e6-8314-732da33427a0.JPG)
 
