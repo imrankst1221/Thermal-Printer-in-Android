@@ -76,14 +76,13 @@ public class MainActivity extends Activity{
 
                 //print title
                 printUnicode();
-                printTitle(" Demo Title ");
-                //resetPrint(); //reset printer
-
                 //print normal text
-                printText(message.getText().toString());
                 printNewLine();
+                printTitle(message.getText().toString());
                 printPhoto();
                 printText(">>  Thank you  <<");
+                resetPrint(); //reset printer
+                printNewLine();
                 printUnicode();
                 printNewLine();
                 printNewLine();
