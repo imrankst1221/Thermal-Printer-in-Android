@@ -85,23 +85,16 @@ public class MainActivity extends Activity{
                 printCustom("Pepperoni Foods Ltd.",0,1);
                 printPhoto(R.drawable.ic_icon_pos);
                 printCustom("H-123, R-123, Dhanmondi, Dhaka-1212",0,1);
-                /*printCustom("Hot Line: +88000 000000",0,1);
+                printCustom("Hot Line: +88000 000000",0,1);
                 printCustom("Vat Reg : 0000000000,Mushak : 11",0,1);
                 String dateTime[] = getDateTime();
                 printText(leftRightAlign(dateTime[0], dateTime[1]));
                 printText(leftRightAlign("Qty: Name" , "Price "));
                 printCustom(new String(new char[32]).replace("\0", "."),0,1);
+                printText(leftRightAlign("Total" , "2,0000/="));
                 printNewLine();
-                printText(leftRightAlign("Total" , "2,0000/="));*/
-                printNewLine();
-
-                /*//print title
-                printUnicode();
-                //print normal text
-                printCustom(message.getText().toString());
-                printNewLine();
-                printText("     >>>>   Thank you  <<<<     "); // total 32 char in a single line
-                //resetPrint(); //reset printer*/
+                printCustom("Thank you for coming & we look",0,1);
+                printCustom("forward to serve you again",0,1);
                 printNewLine();
                 printNewLine();
 
