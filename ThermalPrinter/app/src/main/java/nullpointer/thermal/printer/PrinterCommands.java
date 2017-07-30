@@ -21,7 +21,7 @@ public class PrinterCommands {
     public static final byte[] INIT = {27, 64};
     public static byte[] FEED_LINE = {10};
 
-    public static byte[] SELECT_FONT_A = {27, 33, 0};
+    public static byte[] SELECT_FONT_A = {20, 33, 0};
 
     public static byte[] SET_BAR_CODE_HEIGHT = {29, 104, 100};
     public static byte[] PRINT_BAR_CODE_1 = {29, 107, 2};

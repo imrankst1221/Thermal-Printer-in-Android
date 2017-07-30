@@ -4,21 +4,17 @@ package nullpointer.thermal.printer;
  * Created by https://goo.gl/UAfmBd on 2/6/2017.
  */
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,29 +22,40 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity{
+    private String TAG = "Main Activity";
     EditText message;
-    Button printbtn;
+    Button btnPrint, btnBill;
 
     byte FONT_TYPE;
     private static BluetoothSocket btsocket;
-    private static OutputStream btoutputstream;
+    private static OutputStream outputStream;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        message = (EditText)findViewById(R.id.message);
-        printbtn = (Button)findViewById(R.id.printButton);
+        message = (EditText)findViewById(R.id.txtMessage);
+        btnPrint = (Button)findViewById(R.id.btnPrint);
+        btnBill = (Button)findViewById(R.id.btnBill);
 
-        printbtn.setOnClickListener(new OnClickListener() {
+        btnPrint.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                connect();
+                printDemo();
             }
         });
+        btnBill.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                printBill();
+            }
+        });
+
+
     }
 
-    protected void connect() {
+    protected void printBill() {
         if(btsocket == null){
             Intent BTIntent = new Intent(getApplicationContext(), DeviceList.class);
             this.startActivityForResult(BTIntent, DeviceList.REQUEST_CONNECT_BT);
@@ -60,7 +67,7 @@ public class MainActivity extends Activity{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            btoutputstream = opstream;
+            outputStream = opstream;
 
             //print command
             try {
@@ -69,16 +76,73 @@ public class MainActivity extends Activity{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                btoutputstream = btsocket.getOutputStream();
+                outputStream = btsocket.getOutputStream();
+                byte[] printformat = new byte[]{0x1B,0x21,0x03};
+                outputStream.write(printformat);
+
+
+                printCustom("Fair Group BD",2,1);
+                printCustom("Pepperoni Foods Ltd.",0,1);
+                printPhoto(R.drawable.ic_icon_pos);
+                printCustom("H-123, R-123, Dhanmondi, Dhaka-1212",0,1);
+                /*printCustom("Hot Line: +88000 000000",0,1);
+                printCustom("Vat Reg : 0000000000,Mushak : 11",0,1);
+                String dateTime[] = getDateTime();
+                printText(leftRightAlign(dateTime[0], dateTime[1]));
+                printText(leftRightAlign("Qty: Name" , "Price "));
+                printCustom(new String(new char[32]).replace("\0", "."),0,1);
+                printNewLine();
+                printText(leftRightAlign("Total" , "2,0000/="));*/
+                printNewLine();
+
+                /*//print title
+                printUnicode();
+                //print normal text
+                printCustom(message.getText().toString());
+                printNewLine();
+                printText("     >>>>   Thank you  <<<<     "); // total 32 char in a single line
+                //resetPrint(); //reset printer*/
+                printNewLine();
+                printNewLine();
+
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void printDemo() {
+        if(btsocket == null){
+            Intent BTIntent = new Intent(getApplicationContext(), DeviceList.class);
+            this.startActivityForResult(BTIntent, DeviceList.REQUEST_CONNECT_BT);
+        }
+        else{
+            OutputStream opstream = null;
+            try {
+                opstream = btsocket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            outputStream = opstream;
+
+            //print command
+            try {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                outputStream = btsocket.getOutputStream();
 
                 byte[] printformat = { 0x1B, 0*21, FONT_TYPE };
-                btoutputstream.write(printformat);
+                //outputStream.write(printformat);
 
                 //print title
                 printUnicode();
                 //print normal text
-                printTitle(message.getText().toString());
-                printPhoto();
+                printCustom(message.getText().toString(),0,0);
+                printPhoto(R.drawable.img);
                 printNewLine();
                 printText("     >>>>   Thank you  <<<<     "); // total 32 char in a single line
                 //resetPrint(); //reset printer
@@ -86,33 +150,55 @@ public class MainActivity extends Activity{
                 printNewLine();
                 printNewLine();
 
-                btoutputstream.flush();
+                outputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    //print Title
-    private void printTitle(String msg) {
+    //print custom
+    private void printCustom(String msg, int size, int align) {
+        //Print config "mode"
+        byte[] cc = new byte[]{0x1B,0x21,0x03};  // 0- normal size text
+        //byte[] cc1 = new byte[]{0x1B,0x21,0x00};  // 0- normal size text
+        byte[] bb = new byte[]{0x1B,0x21,0x08};  // 1- only bold text
+        byte[] bb2 = new byte[]{0x1B,0x21,0x20}; // 2- bold with medium text
+        byte[] bb3 = new byte[]{0x1B,0x21,0x10}; // 3- bold with large text
         try {
-            //Print config
-            byte[] bb = new byte[]{0x1B,0x21,0x08};
-            byte[] bb2 = new byte[]{0x1B,0x21,0x20};
-            byte[] bb3 = new byte[]{0x1B,0x21,0x10};
-            byte[] cc = new byte[]{0x1B,0x21,0x00};
+            switch (size){
+                case 0:
+                    outputStream.write(cc);
+                    break;
+                case 1:
+                    outputStream.write(bb);
+                    break;
+                case 2:
+                    outputStream.write(bb2);
+                    break;
+                case 3:
+                    outputStream.write(bb3);
+                    break;
+            }
 
-            //btoutputstream.write(bb);
-            //btoutputstream.write(bb2);
-            btoutputstream.write(bb3);
-
-            //set text into center
-            btoutputstream.write(PrinterCommands.ESC_ALIGN_CENTER);
-            btoutputstream.write(msg.getBytes());
-            btoutputstream.write(PrinterCommands.LF);
-            btoutputstream.write(PrinterCommands.LF);
-            btoutputstream.write(cc);
-            printNewLine();
+            switch (align){
+                case 0:
+                    //left align
+                    outputStream.write(PrinterCommands.ESC_ALIGN_LEFT);
+                    break;
+                case 1:
+                    //center align
+                    outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
+                    break;
+                case 2:
+                    //right align
+                    outputStream.write(PrinterCommands.ESC_ALIGN_RIGHT);
+                    break;
+            }
+            outputStream.write(msg.getBytes());
+            outputStream.write(PrinterCommands.LF);
+            //outputStream.write(cc);
+            //printNewLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,12 +206,13 @@ public class MainActivity extends Activity{
     }
 
     //print photo
-    public void printPhoto() {
+    public void printPhoto(int img) {
         try {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.img);
+                    img);
             if(bmp!=null){
                 byte[] command = Utils.decodeBitmap(bmp);
+                outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
                 printText(command);
             }else{
                 Log.e("Print Photo error", "the file isn't exists");
@@ -139,7 +226,7 @@ public class MainActivity extends Activity{
     //print unicode
     public void printUnicode(){
         try {
-            btoutputstream.write(PrinterCommands.ESC_ALIGN_CENTER);
+            outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
             printText(Utils.UNICODE_TEXT);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -152,7 +239,7 @@ public class MainActivity extends Activity{
     //print new line
     private void printNewLine() {
         try {
-            btoutputstream.write(PrinterCommands.FEED_LINE);
+            outputStream.write(PrinterCommands.FEED_LINE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,22 +248,21 @@ public class MainActivity extends Activity{
 
     public static void resetPrint() {
         try{
-            btoutputstream.write(PrinterCommands.ESC_FONT_COLOR_DEFAULT);
-            btoutputstream.write(PrinterCommands.FS_FONT_ALIGN);
-            btoutputstream.write(PrinterCommands.ESC_ALIGN_LEFT);
-            btoutputstream.write(PrinterCommands.ESC_CANCEL_BOLD);
-            btoutputstream.write(PrinterCommands.LF);
+            outputStream.write(PrinterCommands.ESC_FONT_COLOR_DEFAULT);
+            outputStream.write(PrinterCommands.FS_FONT_ALIGN);
+            outputStream.write(PrinterCommands.ESC_ALIGN_LEFT);
+            outputStream.write(PrinterCommands.ESC_CANCEL_BOLD);
+            outputStream.write(PrinterCommands.LF);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     //print text
     private void printText(String msg) {
         try {
             // Print normal text
-            btoutputstream.write(msg.getBytes());
+            outputStream.write(msg.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -187,12 +273,30 @@ public class MainActivity extends Activity{
     private void printText(byte[] msg) {
         try {
             // Print normal text
-            btoutputstream.write(msg);
+            outputStream.write(msg);
             printNewLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+
+    private String leftRightAlign(String str1, String str2) {
+        String ans = str1 +str2;
+        if(ans.length() <31){
+            int n = (31 - str1.length() + str2.length());
+            ans = str1 + new String(new char[n]).replace("\0", " ") + str2;
+        }
+        return ans;
+    }
+
+
+    private String[] getDateTime() {
+        final Calendar c = Calendar.getInstance();
+        String dateTime [] = new String[2];
+        dateTime[0] = c.get(Calendar.DAY_OF_MONTH) +"/"+ c.get(Calendar.MONTH) +"/"+ c.get(Calendar.YEAR);
+        dateTime[1] = c.get(Calendar.HOUR_OF_DAY) +":"+ c.get(Calendar.MINUTE);
+        return dateTime;
     }
 
     @Override
@@ -200,7 +304,7 @@ public class MainActivity extends Activity{
         super.onDestroy();
         try {
             if(btsocket!= null){
-                btoutputstream.close();
+                outputStream.close();
                 btsocket.close();
                 btsocket = null;
             }

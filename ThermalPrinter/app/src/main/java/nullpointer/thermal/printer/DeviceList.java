@@ -1,7 +1,7 @@
 package nullpointer.thermal.printer;
 
 /**
- * Created by https://goo.gl/UAfmBd on 2/6/2017.
+ * Created by imrankst1221@gmail.com
  */
 import java.io.IOException;
 import java.util.Set;
@@ -93,7 +93,6 @@ public class DeviceList extends ListActivity {
 
     }
     private int initDevicesList() {
-
         flushData();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -108,7 +107,7 @@ public class DeviceList extends ListActivity {
         }
 
         mArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1);
+                R.layout.layout_list);
 
         setListAdapter(mArrayAdapter);
 
@@ -173,7 +172,7 @@ public class DeviceList extends ListActivity {
                 try {
                     if (btDevices == null) {
                         btDevices = new ArrayAdapter<BluetoothDevice>(
-                                getApplicationContext(), android.R.id.text1);
+                                getApplicationContext(), R.layout.layout_list);
                     }
 
                     if (btDevices.getPosition(device) < 0) {
@@ -183,7 +182,7 @@ public class DeviceList extends ListActivity {
                         mArrayAdapter.notifyDataSetInvalidated();
                     }
                 } catch (Exception ex) {
-                // ex.fillInStackTrace();
+                  ex.fillInStackTrace();
                 }
             }
         }
@@ -226,7 +225,7 @@ public class DeviceList extends ListActivity {
                     try {
                         mbtSocket.close();
                     } catch (IOException e) {
-                    // e.printStackTrace();
+                     e.printStackTrace();
                     }
                     mbtSocket = null;
                     return;
