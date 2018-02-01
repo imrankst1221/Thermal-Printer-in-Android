@@ -24,11 +24,10 @@ Preview: https://youtu.be/emedLinWHR4
 </form>
 
 ## Developed By
-<a href="https://www.fiverr.com/imrankst1221" rel="nofollow">
-  <img alt="Add me to Linkedin" src="https://d2nb1f6l8b7ky0.cloudfront.net/fiverr_icon.png" width="50" height="50">
-</a>
-
 <a href="https://www.linkedin.com/in/imrankst1221/" rel="nofollow">
-  <img alt="Add me to Linkedin" src="https://github.com/JorgeCastilloPrz/EasyMVP/raw/master/art/linkedin.png" width="120" height="30">
+  <img alt="Add me to Linkedin" src="https://github.com/JorgeCastilloPrz/EasyMVP/raw/master/art/linkedin.png" >
 </a>
-
+<br>
+<a href="https://www.fiverr.com/imrankst1221" rel="nofollow">
+  <img alt="Add me to Linkedin" src="https://d2nb1f6l8b7ky0.cloudfront.net/fiverr_icon.png">
+</a>
