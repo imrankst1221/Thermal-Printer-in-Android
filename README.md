@@ -25,9 +25,11 @@ Preview: https://youtu.be/emedLinWHR4
 
 ## Developed By
 <a href="https://www.linkedin.com/in/imrankst1221/" rel="nofollow">
-  <img alt="Add me to Linkedin" src="https://github.com/JorgeCastilloPrz/EasyMVP/raw/master/art/linkedin.png" >
+  <img alt="Add me to Linkedin" src="https://github.com/JorgeCastilloPrz/EasyMVP/raw/master/art/linkedin.png" width="100" height="40" >
 </a>
 <br>
-<a href="https://www.fiverr.com/imrankst1221" rel="nofollow">
-  <img alt="Add me to Linkedin" src="https://d2nb1f6l8b7ky0.cloudfront.net/fiverr_icon.png">
-</a>
+
+* Buy me a Coffee. ☕️ 
+   
+   <a href="https://www.paypal.me/imrankst1221" target="_blank"><img src="https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg" width="100" height="40" style="margin-bottom:-15px;"></a> 
+
