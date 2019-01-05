@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Thermal Printer</string>
+    <string name="app_name">ESC/POS Bluetooth Print</string>
+    <string name="admob_list_banner"></string>
+    <string name="paypal_me">https://www.paypal.me/imrankst1221</string>
 </resources>

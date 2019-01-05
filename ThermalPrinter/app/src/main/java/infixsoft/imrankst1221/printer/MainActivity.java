@@ -1,4 +1,4 @@
-package nullpointer.thermal.printer;
+package infixsoft.imrankst1221.printer;
 
 /**
  * Created by https://goo.gl/UAfmBd on 2/6/2017.
@@ -6,6 +6,7 @@ package nullpointer.thermal.printer;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import java.io.IOException;
@@ -15,16 +16,22 @@ import java.util.Calendar;
 
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class MainActivity extends Activity{
     private String TAG = "Main Activity";
     EditText message;
-    Button btnPrint, btnBill;
+    Button btnPrint, btnBill, btnDonate;
+    AdView viewAdmob;
 
     byte FONT_TYPE;
     private static BluetoothSocket btsocket;
@@ -37,6 +44,8 @@ public class MainActivity extends Activity{
         message = (EditText)findViewById(R.id.txtMessage);
         btnPrint = (Button)findViewById(R.id.btnPrint);
         btnBill = (Button)findViewById(R.id.btnBill);
+        btnDonate = (Button)findViewById(R.id.btnDonate);
+        viewAdmob = (AdView)findViewById(R.id.view_admob);
 
         btnPrint.setOnClickListener(new OnClickListener() {
 
@@ -51,8 +60,43 @@ public class MainActivity extends Activity{
                 printBill();
             }
         });
+        btnDonate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.paypal_me)));
+                startActivity(browserIntent);
+            }
+        });
 
+        initAdMob();
+    }
 
+    private void initAdMob() {
+        final AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                //.addTestDevice("F901B815E265F8281206A2CC49D4E432")
+                .build();
+
+        viewAdmob.setAdListener(
+                new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        viewAdmob.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        super.onAdFailedToLoad(errorCode);
+                        viewAdmob.setVisibility(View.INVISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewAdmob.loadAd(adRequest);
+                            }
+                        }, 2000);
+                    }
+                });
+        viewAdmob.loadAd(adRequest);
     }
 
     protected void printBill() {

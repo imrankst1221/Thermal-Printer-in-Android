@@ -1,4 +1,4 @@
-package nullpointer.thermal.printer;
+package infixsoft.imrankst1221.printer;
 
 /**
  * Created by imrankst1221@gmail.com
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
+import android.Manifest;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -15,14 +16,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
 public class DeviceList extends ListActivity {
+    private static String TAG = "---DeviceList";
+    public static final int REQUEST_COARSE_LOCATION = 200;
 
     static public final int REQUEST_CONNECT_BT = 0*2300;
     static private final int REQUEST_ENABLE_BT = 0*1000;
@@ -45,18 +53,31 @@ public class DeviceList extends ListActivity {
 
         try {
             if (initDevicesList() != 0) {
-                this.finish();
-                return;
+                finish();
             }
 
         } catch (Exception ex) {
-            this.finish();
-            return;
+             finish();
         }
 
-        IntentFilter btIntentFilter = new IntentFilter(
-                BluetoothDevice.ACTION_FOUND);
-        registerReceiver(mBTReceiver, btIntentFilter);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_COARSE_LOCATION);
+        }else {
+            proceedDiscovery();
+        }
+    }
+
+
+    protected void proceedDiscovery() {
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothDevice.ACTION_NAME_CHANGED);
+        registerReceiver(mBTReceiver, filter);
+
+        mBluetoothAdapter.startDiscovery();
     }
 
     public static BluetoothSocket getSocket() {
@@ -86,9 +107,9 @@ public class DeviceList extends ListActivity {
                 mArrayAdapter = null;
             }
 
-            finalize();
+            //finalize();
         } catch (Exception ex) {
-        } catch (Throwable e) {
+            Log.e(TAG, ex.getMessage());
         }
 
     }
@@ -116,6 +137,7 @@ public class DeviceList extends ListActivity {
         try {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         } catch (Exception ex) {
+
             return -2;
         }
 
@@ -152,6 +174,7 @@ public class DeviceList extends ListActivity {
                             }
                         }
                     } catch (Exception ex) {
+                        Log.e(TAG, ex.getMessage());
                     }
                 }
 
@@ -228,7 +251,6 @@ public class DeviceList extends ListActivity {
                      e.printStackTrace();
                     }
                     mbtSocket = null;
-                    return;
                 } finally {
                     runOnUiThread(new Runnable() {
 
@@ -255,6 +277,24 @@ public class DeviceList extends ListActivity {
 
         }
     };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_COARSE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    proceedDiscovery();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Permission is not granted!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

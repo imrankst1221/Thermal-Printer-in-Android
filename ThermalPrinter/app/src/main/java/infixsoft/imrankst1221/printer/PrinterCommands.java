@@ -1,4 +1,4 @@
-package nullpointer.thermal.printer;
+package infixsoft.imrankst1221.printer;
 
 /**
  * Created by https://goo.gl/UAfmBd on 2/6/2017.

@@ -1,4 +1,4 @@
-package nullpointer.thermal.printer;
+package infixsoft.imrankst1221.printer;
 
 import android.graphics.Bitmap;
 import android.util.Log;
