@@ -23,6 +23,14 @@ Preview: https://youtu.be/emedLinWHR4
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
 
+ESC/POS Bluetooth Print project is availabe on play store, test live example: 
+<br>
+<a href="https://play.google.com/store/apps/details?id=infix.imrankst1221.rocket.web/">https://play.google.com/store/apps/details?id=infixsoft.imrankst1221.printer</a>
+<br>
+<a href="https://play.google.com/store/apps/details?id=infix.imrankst1221.rocket.web/" rel="nofollow">
+  <img alt="InfixSoft" src="https://user-images.githubusercontent.com/7795398/50726494-0fa7b280-1138-11e9-9f2a-74d40f877302.png" width="200" height="200" >
+</a>
+<br>
 
 ## Contact with me
 <a href="http://www.infixsoft.com/" rel="nofollow">
