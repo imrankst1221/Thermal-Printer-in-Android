@@ -32,6 +32,14 @@ ESC/POS Bluetooth Print project is availabe on play store, test live example:
 </a>
 <br>
 
+### If you like, give it a ★ at the top right of this page.
+
+> Hi, Imran and I am mobile app designer & developer. I love coffee and travel to new places.
+> * [**Hire me**](mailto:imrankst1221@gmail.com?subject=Let's%20build%20something%20amazing) to help you make cool stuff. *Note: If you're having a problem with this library, please open an [issue](https://github.com/imrankst1221/Thermal-Printer-in-Android/issues/new)*
+> * If you found something new which helps others please contribute in this library.
+> * Check out my [website](http://infixsoft.com) to see some of my other projects.
+> * Building and maintaining this **free** library takes a lot of my time and **saves you time**. Please consider paying it forward by supporting me with a small amount to my [PayPal](https://www.paypal.me/imrankst1221).
+
 ## Contact with me
 <a href="http://www.infixsoft.com/" rel="nofollow">
   <img alt="InfixSoft" src="https://user-images.githubusercontent.com/7795398/50554917-cf86a100-0ced-11e9-86d5-20bab2faed9b.png" width="40" height="40" >
