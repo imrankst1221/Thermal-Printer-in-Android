@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">ESC/POS Bluetooth Print</string>
-    <string name="admob_list_banner"></string>
+    <string name="admob_list_banner">ca-app-pub-8635598904621171/9229766803</string>
     <string name="paypal_me">https://www.paypal.me/imrankst1221</string>
 </resources>

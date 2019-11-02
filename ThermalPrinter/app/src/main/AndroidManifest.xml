@@ -21,5 +21,8 @@
         </activity>
         <activity android:name=".DeviceList" />
         <activity android:name=".MainActivity"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8635598904621171~4935298570" />
     </application>
 </manifest>
