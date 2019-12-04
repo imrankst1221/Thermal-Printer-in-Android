@@ -13,8 +13,11 @@
 
 Preview: https://youtu.be/emedLinWHR4
 
-<img src="https://cloud.githubusercontent.com/assets/7795398/22687215/4c9d4f5e-ed51-11e6-8314-732da33427a0.JPG" width="350" height="380">
+## Buy Cashino PTP-II from Amazon: https://amzn.to/388pxQ3
 
+<a href="https://amzn.to/388pxQ3" rel="nofollow">
+  <img src="https://cloud.githubusercontent.com/assets/7795398/22687215/4c9d4f5e-ed51-11e6-8314-732da33427a0.JPG" width="350" height="380">
+</a>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick">
