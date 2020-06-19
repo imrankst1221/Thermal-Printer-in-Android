@@ -245,8 +245,10 @@ public class MainActivity extends Activity{
     //print photo
     public void printPhoto(int img) {
         try {
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-                    img);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inTargetDensity = 200;
+            options.inDensity = 200;
+            Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), img, options);
             if(bmp!=null){
                 byte[] command = Utils.decodeBitmap(bmp);
                 outputStream.write(PrinterCommands.ESC_ALIGN_CENTER);
